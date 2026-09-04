@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Adaptive-Fee AMM — live demo</title>
+<link rel="stylesheet" href="style.css" />
+<script src="vendor/ethers.umd.min.js"></script>
+<script src="vendor/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Adaptive-Fee AMM</h1>
+    <p class="subtitle">A constant-product pool whose fee scales with realized volatility, vs. a static-fee baseline — deployed on Sepolia testnet, not a simulation.</p>
+    <button id="connectBtn">Connect wallet</button>
+    <span id="account" class="account"></span>
+  </header>
+
+  <main>
+    <section class="pools">
+      <div class="pool-card" id="staticCard">
+        <h2>Static 30bps pool</h2>
+        <div class="stat"><span>Current fee</span><strong id="staticFee">—</strong></div>
+        <div class="stat"><span>Price (token1/token0)</span><strong id="staticPrice">—</strong></div>
+        <div class="stat"><span>Reserves</span><strong id="staticReserves">—</strong></div>
+      </div>
+      <div class="pool-card highlight" id="dynamicCard">
+        <h2>Dynamic 5–100bps pool</h2>
+        <div class="stat"><span>Current fee</span><strong id="dynamicFee">—</strong></div>
+        <div class="stat"><span>Price (token1/token0)</span><strong id="dynamicPrice">—</strong></div>
+        <div class="stat"><span>Reserves</span><strong id="dynamicReserves">—</strong></div>
+      </div>
+    </section>
+
+    <section class="swap-box">
+      <h2>Try a swap</h2>
+      <p class="hint">Swaps against both pools with the same input, so you can see the fee difference directly. Needs testnet dUSD/dETH — see the "Get demo tokens" button once connected.</p>
+      <div class="swap-row">
+        <select id="poolSelect">
+          <option value="dynamic">Dynamic pool</option>
+          <option value="static">Static pool</option>
+        </select>
+        <select id="directionSelect">
+          <option value="true">dUSD → dETH</option>
+          <option value="false">dETH → dUSD</option>
+        </select>
+        <input id="amountInput" type="number" placeholder="amount in" min="0" step="any" />
+        <button id="swapBtn">Swap</button>
+        <button id="mintBtn">Get demo tokens</button>
+      </div>
+      <div id="swapStatus" class="status"></div>
+    </section>
+
+    <section class="chart-box">
+      <h2>Fee history (this session's cached swaps)</h2>
+      <canvas id="feeChart" height="90"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>Contracts verified on <a id="etherscanLink" href="#" target="_blank">Etherscan</a>. Source: <a href="https://github.com" target="_blank">GitHub</a>.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
